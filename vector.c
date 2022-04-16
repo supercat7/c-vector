@@ -7,14 +7,12 @@
 
 
 vector vec(char* type) {
-	vector v = malloc(sizeof(vector));
+	vector v = malloc(sizeof(*v));
 	if (v == NULL || type == NULL) return NULL;
-	memset(v, 0, sizeof(vector));
 
 	v->capacity = 0;
 	v->size = -1;
-	int len = strlen(type);
-	v->type = malloc(len);
+	v->type = malloc(strlen(type) +1);
 	if (v->type == NULL) return NULL;
 	
 	volatile int size = 0;
@@ -32,7 +30,7 @@ vector vec(char* type) {
 	}
 	
 	v->elemsize = size;
-	v->buf = malloc(1);
+	v->buf = malloc(0);
 	return v;
 }
 
@@ -48,11 +46,14 @@ int vec_free(vector v) {
 	free(v->type);
 	free(v);
 	v = NULL;
+	return 0;
 }
 
 int vec_realloc(vector v, int size) {
 	v->capacity = size;
-	v->buf = realloc(v->buf, size);
+	void** newptr;
+	newptr = realloc(v->buf, size);
+	v->buf = newptr;
 	if (v->buf == NULL) return -1;
 	return 0;
 }
