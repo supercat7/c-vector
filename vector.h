@@ -12,7 +12,7 @@ typedef struct {
 #define vector vector_t*
 
 vector vec(char* type);
-void vec_free(vector v);
+int vec_free(vector v);
 int vec_realloc(vector v, int size);
 int vec_push(vector v, void* item);
 

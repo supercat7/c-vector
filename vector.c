@@ -8,10 +8,14 @@
 
 vector vec(char* type) {
 	vector v = malloc(sizeof(vector));
+	if (v == NULL || type == NULL) return NULL;
+	memset(v, 0, sizeof(vector));
 
 	v->capacity = 0;
 	v->size = -1;
-	v->type = malloc(strlen(type));
+	int len = strlen(type);
+	v->type = malloc(len);
+	if (v->type == NULL) return NULL;
 	
 	volatile int size = 0;
 	if (strcmp(type, "char") == 0) {
@@ -23,22 +27,21 @@ vector vec(char* type) {
 	} else if (strcmp(type, "string") == 0) {
 		size = 0;	// string is not a type
 		strcpy(v->type, "string");
-	} else if (strcmp(type, "struct") == 0) {
-		size = sizeof(int ) * 2;
-		strcpy(v->type, "struct");
 	} else {
 		return NULL;
 	}
 	
 	v->elemsize = size;
-	v->buf = malloc(0);
+	v->buf = malloc(1);
 	return v;
 }
 
-void vec_free(vector v) {
+int vec_free(vector v) {
+	if (v == NULL) return -1;
 	if (strcmp(v->type, "string") == 0) {
 		for (int i=0; i < v->size; i++) {
 			free(v->buf[i]);
+			v->buf[i] = NULL;
 		}
 	}
 	free(v->buf);

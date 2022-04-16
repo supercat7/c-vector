@@ -15,4 +15,5 @@ int main(void) {
 	printf("Type: %s\n", v->type);
 	printf("Type Size: %i\n", v->elemsize);
 
+	vec_free(v);
 }
