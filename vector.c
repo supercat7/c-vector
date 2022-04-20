@@ -60,14 +60,13 @@ int vec_realloc(vector v, int size) {
 
 int vec_push(vector v, void* item) {
 	v->size++;
-	// string (char array)
 	if (strcmp(v->type, "string") == 0) {
 		char* str = (char*)item;
 		int len = strlen(str);
 		if (vec_realloc(v, v->capacity + len) != 0) {
 			return -1;
 		}
-		v->buf[v->size] = realloc(v->buf[v->size], len +1);
+		v->buf[v->size] = malloc(len +1);
 		strcpy((char*)v->buf[v->size], str);
 	} else {
 		if (vec_realloc(v, v->capacity + v->elemsize) != 0) {
@@ -77,3 +76,4 @@ int vec_push(vector v, void* item) {
 	}
 	return 0;
 }
+

@@ -15,6 +15,6 @@ vector vec(char* type);
 int vec_free(vector v);
 int vec_realloc(vector v, int size);
 int vec_push(vector v, void* item);
-
+int vec_pop(vector v); 
 
 #endif
