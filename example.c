@@ -11,6 +11,25 @@ void die(char* s) {
 	exit(1);
 }
 
+vector str_split(char* str, char* delim) {
+	vector v = vec("string");
+
+	char *r = strdup(str);
+	char* del = strdup(delim);
+	// check for errors
+	
+	char *tok = r, *end = r;
+	while (tok != NULL) {
+	    strsep(&end, del);
+	    vec_push(v, (void*)tok);
+	    tok = end;
+	}
+	
+	free(r);
+
+	return v;
+}
+
 int main(void) {
 	vector v = vec("int");
 	if (v == NULL) die("vec");
@@ -32,9 +51,14 @@ int main(void) {
 	printf("Capacity: %i\n", s->capacity);
 	printf("Type: %s\n", s->type);
 	printf("Type Size: %i\n", s->elemsize);
-	vec_pop(s);
 	printf("%s\n", (char*)s->buf[0]);
 	if (vec_free(s)!= 0) die("vec_free");
+
+	
+	vector p = str_split("Hello-World", "-");
+	for (int i=0; i <= p->size; i++) {
+		printf("%s\n", (char*)p->buf[i]);
+	}
 
 
 	return 0; 
